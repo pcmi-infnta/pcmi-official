@@ -42,15 +42,14 @@ export default async function MenuBar({ className }: MenuBarProps) {
 
 
 
-
 <Button
   variant="ghost"
-  className="flex items-center justify-start gap-3 w-full" // Remove any hidden classes
+  className="flex items-center justify-start gap-3 w-full" 
   title="People"
   asChild
 >
   <Link href="/people">
-    <Users className="h-5 w-5" />
+    <Users className="h-5 w-5" /> {/* Make sure to import Users from lucide-react */}
     <span className="hidden lg:inline">People</span>
   </Link>
 </Button>
