@@ -23,7 +23,7 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
   return (
     <Button
   variant="ghost"
-  className="!hidden !lg:flex items-center justify-start gap-3"
+  className="hidden lg:flex items-center justify-start gap-3"
   title="Messages"
   asChild
 >
@@ -36,7 +36,7 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
         </span>
       )}
     </div>
-    <span className="!hidden !lg:inline">Messages</span>
+    <span className="hidden lg:inline">Messages</span>
   </Link>
 </Button>
   );
