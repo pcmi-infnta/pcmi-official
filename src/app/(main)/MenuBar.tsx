@@ -62,10 +62,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
         initialState={{ unreadCount: unreadNotificationsCount }}
       />
 
-     
- <div className="fixed bottom-0 left-0 right-0 lg:relative lg:bottom-auto lg:left-auto lg:right-auto">
-  <MessagesButton initialState={{ unreadCount: unreadMessagesCount }} />
-</div>
+ <MessagesButton initialState={{ unreadCount: unreadMessagesCount }} />
 
       <Button
         variant="ghost"
