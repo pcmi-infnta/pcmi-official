@@ -23,7 +23,7 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
   return (
     <Button
       variant="ghost"
-      className="hidden md:flex items-center justify-start gap-3"
+      className="flex items-center justify-start gap-3"
       title="Messages"
       asChild
     >
