@@ -62,9 +62,8 @@ export default async function MenuBar({ className }: MenuBarProps) {
         initialState={{ unreadCount: unreadNotificationsCount }}
       />
 
-      <div className="lg:block"> {/* Wrapper div */}
+     
   <MessagesButton initialState={{ unreadCount: unreadMessagesCount }} />
-</div>
 
 
       <Button
