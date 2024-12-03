@@ -22,20 +22,22 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
 
   return (
     <Button
-  variant="ghost"
-  className="flex items-center justify-start gap-3 w-full md:w-auto"
-  title="Messages"
-  asChild
->
-  <Link href="/messages" className="w-full">
-    <MessagesSquare className="h-5 w-5" />
-    <span>Messages</span>
-    {data.unreadCount > 0 && (
-      <span className="ml-auto rounded-full bg-primary px-2 text-sm text-primary-foreground">
-        {data.unreadCount}
-      </span>
-    )}
-  </Link>
-</Button>
+      variant="ghost"
+      className="hidden md:flex items-center justify-start gap-3"
+      title="Messages"
+      asChild
+    >
+      <Link href="/messages">
+        <div className="relative">
+          <MessagesSquare />
+          {!!data.unreadCount && (
+            <span className="absolute -right-1 -top-1 rounded-full bg-primary px-1 text-xs font-medium tabular-nums text-primary-foreground">
+              {data.unreadCount}
+            </span>
+          )}
+        </div>
+        <span className="hidden md:inline">Messages</span>
+      </Link>
+    </Button>
   );
 }
