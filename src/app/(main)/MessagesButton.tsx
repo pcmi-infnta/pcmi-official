@@ -22,22 +22,22 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
 
   return (
     <Button
-      variant="ghost"
-      className="hidden lg:flex !important items-center justify-start gap-3"
-      title="Messages"
-      asChild
-    >
-      <Link href="/messages">
-        <div className="relative">
-          <MessagesSquare />
-          {!!data.unreadCount && (
-            <span className="absolute -right-1 -top-1 rounded-full bg-primary px-1 text-xs font-medium tabular-nums text-primary-foreground">
-              {data.unreadCount}
-            </span>
-          )}
-        </div>
-        <span className="hidden md:inline">Messages</span>
-      </Link>
-    </Button>
+  variant="ghost"
+  className="!hidden !lg:flex items-center justify-start gap-3"
+  title="Messages"
+  asChild
+>
+  <Link href="/messages">
+    <div className="relative">
+      <MessagesSquare />
+      {!!data.unreadCount && (
+        <span className="absolute -right-1 -top-1 rounded-full bg-primary px-1 text-xs font-medium tabular-nums text-primary-foreground">
+          {data.unreadCount}
+        </span>
+      )}
+    </div>
+    <span className="!hidden !lg:inline">Messages</span>
+  </Link>
+</Button>
   );
 }
