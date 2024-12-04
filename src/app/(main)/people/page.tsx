@@ -5,6 +5,7 @@ import UserAvatar from "@/components/UserAvatar";
 import UserTooltip from "@/components/UserTooltip";
 import FollowButton from "@/components/FollowButton";
 import Link from "next/link";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 export default async function PeoplePage() {
   const { user } = await validateRequest();
