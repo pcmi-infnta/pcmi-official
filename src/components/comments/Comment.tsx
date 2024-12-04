@@ -16,7 +16,7 @@ export default function Comment({ comment }: CommentProps) {
 
   return (
     <div className="group/comment flex gap-3 py-3">
-      <div className="flex-shrink-0"> {/* Add flex-shrink-0 to prevent avatar from shrinking */}
+      <div className="flex-shrink-0">
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
             <div className="sm:hidden">
@@ -29,8 +29,8 @@ export default function Comment({ comment }: CommentProps) {
         </UserTooltip>
       </div>
 
-      <div className="flex flex-col min-w-0"> {/* Add min-w-0 to prevent content from overflowing */}
-        <div className="flex items-center gap-2 text-sm flex-wrap">
+      <div className="flex flex-col min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-x-2 text-sm">
           <UserTooltip user={comment.user}>
             <Link
               href={`/users/${comment.user.username}`}
@@ -42,7 +42,7 @@ export default function Comment({ comment }: CommentProps) {
               )}
             </Link>
           </UserTooltip>
-          <span className="text-muted-foreground">
+          <span className="text-muted-foreground whitespace-nowrap">
             {formatRelativeDate(comment.createdAt)}
           </span>
         </div>
