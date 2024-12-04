@@ -93,6 +93,7 @@ export const notificationsInclude = {
       username: true,
       displayName: true,
       avatarUrl: true,
+      isVerified: true
     },
   },
   post: {
