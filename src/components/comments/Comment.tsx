@@ -20,7 +20,7 @@ export default function Comment({ comment }: CommentProps) {
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
             <div className="sm:hidden">
-              <UserAvatar avatarUrl={comment.user.avatarUrl} size={24} />
+              <UserAvatar avatarUrl={comment.user.avatarUrl} size={30} />
             </div>
             <div className="hidden sm:block">
               <UserAvatar avatarUrl={comment.user.avatarUrl} size={40} />
