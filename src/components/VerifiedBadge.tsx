@@ -36,7 +36,7 @@ export default function VerifiedBadge({
       className
     )}>
       <Image
-        src="/leaders-badge.svg" // Make sure this image exists in your public folder
+        src="/verified-badge.gif" // Make sure this image exists in your public folder
         alt="Verified Badge"
         width={badgeSize}
         height={badgeSize}
