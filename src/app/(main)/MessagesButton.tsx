@@ -24,7 +24,7 @@ export default function MessagesButton({ initialState }: MessagesButtonProps) {
     <Button
       variant="ghost"
       
-className="hidden" 
+        className="hidden lg:flex items-center justify-start gap-3"
       title="Messages"
       asChild
     >
