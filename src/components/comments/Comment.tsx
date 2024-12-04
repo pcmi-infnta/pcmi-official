@@ -38,11 +38,11 @@ export default function Comment({ comment }: CommentProps) {
             >
               {comment.user.displayName}
               {comment.user.isVerified && (
-                <VerifiedBadge size="sm" className="ml-1" />
+                <VerifiedBadge size="sm"/>
               )}
             </Link>
           </UserTooltip>
-          <span className="text-muted-foreground whitespace-nowrap">
+          <span className="text-muted-foreground text-xs whitespace-nowrap">
             {formatRelativeDate(comment.createdAt)}
           </span>
         </div>
