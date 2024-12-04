@@ -29,14 +29,13 @@ export default function VerifiedBadge({
 
   const handleClick = useCallback(() => {
     setShowText(true);
-    // Hide the text after 3 seconds
     setTimeout(() => {
       setShowText(false);
     }, 3000);
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative inline-block">
       <div 
         onClick={handleClick}
         className={cn(
@@ -59,10 +58,10 @@ export default function VerifiedBadge({
         className={cn(
           "absolute left-1/2 -translate-x-1/2 whitespace-nowrap",
           "px-2 py-1 rounded bg-black/80 text-white text-xs",
-          "transition-all duration-300",
+          "transition-all duration-300 z-50",
           showText 
-            ? "opacity-100 -top-8 transform" 
-            : "opacity-0 top-0"
+            ? "opacity-100 -top-8 visible" 
+            : "opacity-0 top-0 invisible"
         )}
       >
         Leader&apos;s Badge
