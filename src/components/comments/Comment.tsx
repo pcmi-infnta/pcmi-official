@@ -32,7 +32,7 @@ export default function Comment({ comment }: CommentProps) {
             >
               {comment.user.displayName}
               {comment.user.isVerified && (
-                <VerifiedBadge size="sm" className="ml-1" />
+                <VerifiedBadge size="sm" />
               )}
             </Link>
           </UserTooltip>
