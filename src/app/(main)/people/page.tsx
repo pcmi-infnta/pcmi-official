@@ -43,13 +43,19 @@ export default async function PeoplePage() {
                 >
                   <UserAvatar avatarUrl={user.avatarUrl} className="flex-none" />
                   <div>
-                    <p className="line-clamp-1 break-all font-semibold hover:underline">
-                      {user.displayName}
-                    </p>
-                    <p className="line-clamp-1 break-all text-muted-foreground">
-                      @{user.username}
-                    </p>
-                  </div>
+  <p className="line-clamp-1 break-all font-semibold hover:underline flex items-center">
+    {user.displayName}
+    {user.isVerified && (
+      <VerifiedBadge 
+        size="md" 
+        className="ml-1"
+      />
+    )}
+  </p>
+  <p className="line-clamp-1 break-all text-muted-foreground">
+    @{user.username}
+  </p>
+</div>
                 </Link>
               </UserTooltip>
               <FollowButton
