@@ -1,4 +1,4 @@
-  import { validateRequest } from "@/auth";
+import { validateRequest } from "@/auth";
 import FollowButton from "@/components/FollowButton";
 import FollowerCount from "@/components/FollowerCount";
 import Linkify from "@/components/Linkify";
@@ -14,6 +14,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import EditProfileButton from "./EditProfileButton";
 import UserPosts from "./UserPosts";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 interface PageProps {
   params: { username: string };
@@ -101,20 +102,18 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-bold">{user.displayName}</h1>
-              {user.isVerified && (
-                <Image
-                  src="/leaders-badge.svg"
-                  alt="Verified"
-                  width={24}
-                  height={24}
-                  className="text-blue-500"
-                />
-              )}
-            </div>
-            <div className="text-muted-foreground">@{user.username}</div>
-          </div>
+           <div className="flex items-center gap-2">
+    <h1 className="text-3xl font-bold">{user.displayName}</h1>
+    {user.isVerified && (
+      <VerifiedBadge 
+        size="lg" 
+        showTooltip={true}
+        tooltipContent="Verified Account"
+      />
+    )}
+  </div>
+  <div className="text-muted-foreground">@{user.username}</div>
+</div>
           <div>Member since {formatDate(user.createdAt, "MMM d, yyyy")}</div>
           <div className="flex items-center gap-3">
             <span>
