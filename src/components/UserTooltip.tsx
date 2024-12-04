@@ -1,8 +1,7 @@
- "use client";
+"use client";
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { FollowerInfo, UserData } from "@/lib/types";
-import Image from "next/image";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import FollowButton from "./FollowButton";
@@ -15,6 +14,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import UserAvatar from "./UserAvatar";
+import VerifiedBadge from "./VerifiedBadge";
 
 interface UserTooltipProps extends PropsWithChildren {
   user: UserData;
@@ -51,12 +51,10 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
                     {user.displayName}
                   </div>
                   {user.isVerified && (
-                    <Image
-                      src="/leaders-badge.svg"
-                      alt="Verified"
-                      width={16}
-                      height={16}
-                      className="text-blue-500"
+                    <VerifiedBadge 
+                      size="md" 
+                      className="ml-1"
+                      showTooltip={false} // Disable tooltip since we're already in a tooltip
                     />
                   )}
                 </div>
