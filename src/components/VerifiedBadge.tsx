@@ -35,14 +35,13 @@ export default function VerifiedBadge({
   }, []);
 
   return (
-    <div className="relative inline-block align-middle"> {/* Added align-middle here */}
+    <div className="relative inline-flex items-center"> {/* Changed to inline-flex and items-center */}
       <div 
         onClick={handleClick}
         className={cn(
           "inline-flex items-center justify-center",
           "transition-all duration-200 ease-in-out",
           "hover:scale-110 cursor-pointer",
-          "align-middle", // Added align-middle here
           className
         )}
       >
@@ -51,7 +50,7 @@ export default function VerifiedBadge({
           alt="Verified Badge"
           width={badgeSize}
           height={badgeSize}
-          className="translate-y-[1px]" // Fine-tune vertical alignment
+          className="translate-y-[-1px]" // Adjusted to move slightly up
         />
       </div>
       
