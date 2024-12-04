@@ -106,7 +106,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
     <h1 className="text-3xl font-bold">{user.displayName}</h1>
     {user.isVerified && (
       <VerifiedBadge 
-        size="lg" 
+        size="xl" 
         showTooltip={true}
         tooltipContent="Verified Account"
       />
