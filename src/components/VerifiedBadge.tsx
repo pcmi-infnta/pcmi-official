@@ -9,7 +9,7 @@ import {
 
 interface VerifiedBadgeProps {
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   showTooltip?: boolean;
   tooltipContent?: string;
 }
@@ -18,6 +18,7 @@ const sizeMap = {
   sm: 14,
   md: 16,
   lg: 20,
+  xl: 24
 };
 
 export default function VerifiedBadge({
