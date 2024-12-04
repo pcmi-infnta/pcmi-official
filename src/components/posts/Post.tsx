@@ -4,7 +4,7 @@ import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
 import { cn, formatRelativeDate } from "@/lib/utils";
 import { Media } from "@prisma/client";
-import { MessageSquare } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -163,7 +163,7 @@ interface CommentButtonProps {
 function CommentButton({ post, onClick }: CommentButtonProps) {
   return (
     <button onClick={onClick} className="flex items-center gap-2">
-      <MessageSquare className="size-5" />
+      <MessageCircle className="size-5" />
       <span className="text-sm font-medium tabular-nums">
         {post._count.comments}{" "}
         <span className="hidden sm:inline">comments</span>
