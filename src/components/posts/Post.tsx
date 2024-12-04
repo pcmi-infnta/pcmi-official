@@ -47,7 +47,7 @@ export default function Post({ post }: PostProps) {
                 {post.user.isVerified && (
                   <VerifiedBadge 
                     size="md" 
-                    className="ml-1"
+                    
                     showTooltip={true}
                   />
                 )}
