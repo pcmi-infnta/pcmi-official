@@ -16,7 +16,7 @@ export default function Comment({ comment }: CommentProps) {
 
   return (
     <div className="group/comment flex gap-3 py-3">
-      <span>
+      <div className="flex-shrink-0"> {/* Add flex-shrink-0 to prevent avatar from shrinking */}
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
             <div className="sm:hidden">
@@ -27,13 +27,14 @@ export default function Comment({ comment }: CommentProps) {
             </div>
           </Link>
         </UserTooltip>
-      </span>
-      <div>
-        <div className="flex items-center gap-1 text-sm">
+      </div>
+
+      <div className="flex flex-col min-w-0"> {/* Add min-w-0 to prevent content from overflowing */}
+        <div className="flex items-center gap-2 text-sm flex-wrap">
           <UserTooltip user={comment.user}>
             <Link
               href={`/users/${comment.user.username}`}
-              className="font-medium hover:underline flex items-center gap-1"
+              className="font-medium hover:underline inline-flex items-center gap-1"
             >
               {comment.user.displayName}
               {comment.user.isVerified && (
@@ -45,8 +46,9 @@ export default function Comment({ comment }: CommentProps) {
             {formatRelativeDate(comment.createdAt)}
           </span>
         </div>
-        <div>{comment.content}</div>
+        <div className="break-words">{comment.content}</div>
       </div>
+
       {comment.user.id === user.id && (
         <CommentMoreButton
           comment={comment}
