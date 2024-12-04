@@ -15,23 +15,20 @@ export default function Comment({ comment }: CommentProps) {
   const { user } = useSession();
 
   return (
-
     <div className="group/comment flex gap-3 py-3">
-  <span>
-    <UserTooltip user={comment.user}>
-      <Link href={`/users/${comment.user.username}`}>
-        <div className="sm:hidden">
-          <UserAvatar avatarUrl={comment.user.avatarUrl} size={24} /> {/* smaller size for mobile */}
-        </div>
-        <div className="hidden sm:block">
-          <UserAvatar avatarUrl={comment.user.avatarUrl} size={40} /> {/* original size for larger screens */}
-        </div>
-      </Link>
-    </UserTooltip>
-  </span>
-</div>
-
-
+      <span>
+        <UserTooltip user={comment.user}>
+          <Link href={`/users/${comment.user.username}`}>
+            <div className="sm:hidden">
+              <UserAvatar avatarUrl={comment.user.avatarUrl} size={24} />
+            </div>
+            <div className="hidden sm:block">
+              <UserAvatar avatarUrl={comment.user.avatarUrl} size={40} />
+            </div>
+          </Link>
+        </UserTooltip>
+      </span>
+      <div>
         <div className="flex items-center gap-1 text-sm">
           <UserTooltip user={comment.user}>
             <Link
@@ -40,7 +37,7 @@ export default function Comment({ comment }: CommentProps) {
             >
               {comment.user.displayName}
               {comment.user.isVerified && (
-                <VerifiedBadge size="sm" />
+                <VerifiedBadge size="sm" className="ml-1" />
               )}
             </Link>
           </UserTooltip>
