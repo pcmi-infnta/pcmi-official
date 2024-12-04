@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
@@ -36,12 +36,23 @@ export default function Post({ post }: PostProps) {
           </UserTooltip>
           <div>
             <UserTooltip user={post.user}>
-              <Link
-                href={`/users/${post.user.username}`}
-                className="block font-medium hover:underline"
-              >
-                {post.user.displayName}
-              </Link>
+              <div className="flex items-center gap-1">
+                <Link
+                  href={`/users/${post.user.username}`}
+                  className="block font-medium hover:underline"
+                >
+                  {post.user.displayName}
+                </Link>
+                {post.user.isVerified && (
+                  <Image
+                    src="/leaders-badge.svg"
+                    alt="Verified"
+                    width={16}
+                    height={16}
+                    className="text-blue-500"
+                  />
+                )}
+              </div>
             </UserTooltip>
             <Link
               href={`/posts/${post.id}`}
