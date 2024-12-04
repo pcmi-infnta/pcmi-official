@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -14,6 +14,7 @@ interface User {
   avatarUrl: string | null;
   bio: string | null;
   createdAt: Date;
+  isVerified: boolean;  
   followers: Array<{
     followerId: string;
   }>;
