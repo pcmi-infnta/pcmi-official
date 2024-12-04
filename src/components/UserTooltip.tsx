@@ -1,7 +1,8 @@
-"use client";
+ "use client";
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { FollowerInfo, UserData } from "@/lib/types";
+import Image from "next/image";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import FollowButton from "./FollowButton";
@@ -45,8 +46,19 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
             </div>
             <div>
               <Link href={`/users/${user.username}`}>
-                <div className="text-lg font-semibold hover:underline">
-                  {user.displayName}
+                <div className="flex items-center gap-1">
+                  <div className="text-lg font-semibold hover:underline">
+                    {user.displayName}
+                  </div>
+                  {user.isVerified && (
+                    <Image
+                      src="/leaders-badge.svg"
+                      alt="Verified"
+                      width={16}
+                      height={16}
+                      className="text-blue-500"
+                    />
+                  )}
                 </div>
                 <div className="text-muted-foreground">@{user.username}</div>
               </Link>
