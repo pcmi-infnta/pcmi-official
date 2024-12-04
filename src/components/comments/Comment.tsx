@@ -27,9 +27,12 @@ export default function Comment({ comment }: CommentProps) {
           <UserTooltip user={comment.user}>
             <Link
               href={`/users/${comment.user.username}`}
-              className="font-medium hover:underline"
+              className="font-medium hover:underline flex items-center gap-1"
             >
               {comment.user.displayName}
+              {comment.user.isVerified && (
+                <VerifiedBadge size="sm" className="ml-1" />
+              )}
             </Link>
           </UserTooltip>
           <span className="text-muted-foreground">
