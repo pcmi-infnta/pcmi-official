@@ -5,6 +5,7 @@ import Link from "next/link";
 import UserAvatar from "../UserAvatar";
 import UserTooltip from "../UserTooltip";
 import CommentMoreButton from "./CommentMoreButton";
+import VerifiedBadge from "@/components/VerifiedBadge";
 
 interface CommentProps {
   comment: CommentData;
