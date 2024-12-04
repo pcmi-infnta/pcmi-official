@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+ import { Prisma } from "@prisma/client";
 
 export function getUserDataSelect(loggedInUserId: string) {
   return {
@@ -8,6 +8,7 @@ export function getUserDataSelect(loggedInUserId: string) {
     avatarUrl: true,
     bio: true,
     createdAt: true,
+    isVerified: true,
     followers: {
       where: {
         followerId: loggedInUserId,
