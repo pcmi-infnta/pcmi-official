@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
@@ -15,6 +15,7 @@ import UserTooltip from "../UserTooltip";
 import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
 import PostMoreButton from "./PostMoreButton";
+import VerifiedBadge from "../VerifiedBadge";
 
 interface PostProps {
   post: PostData;
@@ -44,12 +45,10 @@ export default function Post({ post }: PostProps) {
                   {post.user.displayName}
                 </Link>
                 {post.user.isVerified && (
-                  <Image
-                    src="/leaders-badge.svg"
-                    alt="Verified"
-                    width={16}
-                    height={16}
-                    className="text-blue-500"
+                  <VerifiedBadge 
+                    size="md" 
+                    className="ml-1"
+                    showTooltip={true}
                   />
                 )}
               </div>
