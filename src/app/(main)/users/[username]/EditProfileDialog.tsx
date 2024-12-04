@@ -31,6 +31,7 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Resizer from "react-image-file-resizer";
 import { useUpdateProfileMutation } from "./mutations";
+import VerifiedBadge from "@/components/VerifiedBadge"; 
 
 interface EditProfileDialogProps {
   user: UserData;
@@ -100,12 +101,22 @@ export default function EditProfileDialog({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your display name" {...field} />
+                    <div className="flex items-center gap-2">
+                      <Input {...field} />
+                      {user.isVerified && (
+                        <VerifiedBadge 
+                          size="md"
+                          showTooltip={true}
+                          className="flex-shrink-0"
+                        />
+                      )}
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="bio"
