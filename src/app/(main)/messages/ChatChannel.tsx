@@ -144,8 +144,6 @@ export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
     <div className={cn("w-full md:block", !open && "hidden")}>
       <Channel 
         reactionOptions={customReactionOptions}
-        // Disable default reactions
-        enableReactions={false}
       >
         <Window>
           <CustomChannelHeader openSidebar={openSidebar} />
