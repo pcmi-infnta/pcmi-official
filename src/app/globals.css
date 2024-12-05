@@ -148,3 +148,11 @@
 .str-chat__message-reactions-option:hover {
   background: var(--primary/10);
 }
+
+
+
+@layer utilities {
+  .backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+  }
+}
