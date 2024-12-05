@@ -7,6 +7,7 @@ import {
   ChannelHeaderProps,
   MessageInput,
   MessageList,
+  MessageSimple,
   Window,
 } from "stream-chat-react";
 
@@ -21,7 +22,21 @@ export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
       <Channel>
         <Window>
           <CustomChannelHeader openSidebar={openSidebar} />
-          <MessageList />
+          <MessageList 
+            Message={(messageProps) => (
+              <MessageSimple
+                {...messageProps}
+                reactionOptions={[
+                  { name: 'love', emoji: '❤️' },
+                  { name: 'like', emoji: '👍' },
+                  { name: 'haha', emoji: '😂' },
+                  { name: 'wow', emoji: '😮' },
+                  { name: 'sad', emoji: '😢' },
+                  { name: 'angry', emoji: '😠' },
+                ]}
+              />
+            )}
+          />
           <MessageInput />
         </Window>
       </Channel>
