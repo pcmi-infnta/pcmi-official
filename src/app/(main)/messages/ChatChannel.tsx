@@ -45,7 +45,7 @@ const customReactionOptions = [
   },
   {
     type: "angry",
-    Component: () => <>😠</>,
+    Component: () => <>😎</>,
     name: "Angry",
   },
 ];
