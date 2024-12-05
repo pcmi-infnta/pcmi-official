@@ -16,29 +16,47 @@ interface ChatChannelProps {
   openSidebar: () => void;
 }
 
+// Define custom reaction options according to the documentation
+const customReactionOptions = [
+  {
+    type: "love",
+    Component: () => <>❤️</>,
+    name: "Love",
+  },
+  {
+    type: "like",
+    Component: () => <>👍</>,
+    name: "Like",
+  },
+  {
+    type: "haha",
+    Component: () => <>😂</>,
+    name: "Haha",
+  },
+  {
+    type: "wow",
+    Component: () => <>😮</>,
+    name: "Wow",
+  },
+  {
+    type: "sad",
+    Component: () => <>😢</>,
+    name: "Sad",
+  },
+  {
+    type: "angry",
+    Component: () => <>😠</>,
+    name: "Angry",
+  },
+];
+
 export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
   return (
     <div className={cn("w-full md:block", !open && "hidden")}>
-      <Channel>
+      <Channel reactionOptions={customReactionOptions}>
         <Window>
           <CustomChannelHeader openSidebar={openSidebar} />
-          <MessageList 
-            Message={(messageProps) => (
-              <MessageSimple
-                {...messageProps}
-                additionalMessageInputProps={{
-                  allowedReactions: [
-                    { name: 'love', emoji: '❤️' },
-                    { name: 'like', emoji: '👍' },
-                    { name: 'haha', emoji: '😂' },
-                    { name: 'wow', emoji: '😮' },
-                    { name: 'sad', emoji: '😢' },
-                    { name: 'angry', emoji: '😠' },
-                  ]
-                }}
-              />
-            )}
-          />
+          <MessageList />
           <MessageInput />
         </Window>
       </Channel>
