@@ -26,14 +26,16 @@ export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
             Message={(messageProps) => (
               <MessageSimple
                 {...messageProps}
-                reactionOptions={[
-                  { name: 'love', emoji: '❤️' },
-                  { name: 'like', emoji: '👍' },
-                  { name: 'haha', emoji: '😂' },
-                  { name: 'wow', emoji: '😮' },
-                  { name: 'sad', emoji: '😢' },
-                  { name: 'angry', emoji: '😠' },
-                ]}
+                additionalMessageInputProps={{
+                  allowedReactions: [
+                    { name: 'love', emoji: '❤️' },
+                    { name: 'like', emoji: '👍' },
+                    { name: 'haha', emoji: '😂' },
+                    { name: 'wow', emoji: '😮' },
+                    { name: 'sad', emoji: '😢' },
+                    { name: 'angry', emoji: '😠' },
+                  ]
+                }}
               />
             )}
           />
