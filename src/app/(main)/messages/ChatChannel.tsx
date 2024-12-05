@@ -57,11 +57,16 @@ const CustomMessage = (props: any) => {
   const longPressTimer = useRef<NodeJS.Timeout>();
   const touchStartTime = useRef<number>(0);
   
-  // Get channel and message context from Stream Chat
   const { channel } = useChannelStateContext();
   const { message } = useMessageContext();
 
-  // Handle reaction click
+  // Prevent the default reaction selector from showing
+  const preventDefaultReactionSelector = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowReactions(true);
+  };
+
   const handleReactionClick = async (reactionType: string) => {
     try {
       const existing = message.own_reactions?.find(
@@ -69,10 +74,8 @@ const CustomMessage = (props: any) => {
       );
 
       if (existing) {
-        // Remove reaction if it already exists
         await channel.deleteReaction(message.id, reactionType);
       } else {
-        // Add new reaction
         await channel.sendReaction(message.id, {
           type: reactionType,
         });
@@ -114,13 +117,17 @@ const CustomMessage = (props: any) => {
       onMouseEnter={() => setShowReactions(true)}
       onMouseLeave={() => setShowReactions(false)}
     >
-      <MessageSimple {...props} />
+      {/* Override the default reaction selector */}
+      <div onClick={preventDefaultReactionSelector}>
+        <MessageSimple {...props} />
+      </div>
+      
       {showReactions && (
-        <div className="absolute bottom-full left-0 mb-2 flex gap-2 p-2 bg-background/80 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-200 ease-in-out">
+        <div className="absolute bottom-full left-0 mb-2 flex gap-3 p-3 bg-background/80 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-200 ease-in-out z-50">
           {customReactionOptions.map((reaction) => (
             <button
               key={reaction.type}
-              className="hover:scale-125 transition-transform duration-200"
+              className="hover:scale-125 transition-transform duration-200 text-2xl" // Increased text size
               onClick={() => handleReactionClick(reaction.type)}
             >
               <reaction.Component />
@@ -135,7 +142,11 @@ const CustomMessage = (props: any) => {
 export default function ChatChannel({ open, openSidebar }: ChatChannelProps) {
   return (
     <div className={cn("w-full md:block", !open && "hidden")}>
-      <Channel reactionOptions={customReactionOptions}>
+      <Channel 
+        reactionOptions={customReactionOptions}
+        // Disable default reactions
+        enableReactions={false}
+      >
         <Window>
           <CustomChannelHeader openSidebar={openSidebar} />
           <MessageList Message={CustomMessage} />
