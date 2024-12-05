@@ -10,6 +10,8 @@ import {
   MessageList,
   MessageSimple,
   Window,
+  useChannelStateContext,
+  useMessageContext,
 } from "stream-chat-react";
 
 interface ChatChannelProps {
@@ -54,18 +56,43 @@ const CustomMessage = (props: any) => {
   const [showReactions, setShowReactions] = useState(false);
   const longPressTimer = useRef<NodeJS.Timeout>();
   const touchStartTime = useRef<number>(0);
+  
+  // Get channel and message context from Stream Chat
+  const { channel } = useChannelStateContext();
+  const { message } = useMessageContext();
+
+  // Handle reaction click
+  const handleReactionClick = async (reactionType: string) => {
+    try {
+      const existing = message.own_reactions?.find(
+        (reaction) => reaction.type === reactionType
+      );
+
+      if (existing) {
+        // Remove reaction if it already exists
+        await channel.deleteReaction(message.id, reactionType);
+      } else {
+        // Add new reaction
+        await channel.sendReaction(message.id, {
+          type: reactionType,
+        });
+      }
+    } catch (error) {
+      console.error("Error handling reaction:", error);
+    }
+    setShowReactions(false);
+  };
 
   const handleTouchStart = useCallback(() => {
     touchStartTime.current = Date.now();
     longPressTimer.current = setTimeout(() => {
       setShowReactions(true);
-    }, 500); // 500ms for long press
+    }, 500);
   }, []);
 
   const handleTouchEnd = useCallback(() => {
     const pressDuration = Date.now() - touchStartTime.current;
     if (pressDuration < 500) {
-      // If it was a short press, clear the timer
       if (longPressTimer.current) {
         clearTimeout(longPressTimer.current);
       }
@@ -73,7 +100,6 @@ const CustomMessage = (props: any) => {
   }, []);
 
   const handleTouchMove = useCallback(() => {
-    // Clear the timer if the user moves their finger
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
     }
@@ -95,13 +121,7 @@ const CustomMessage = (props: any) => {
             <button
               key={reaction.type}
               className="hover:scale-125 transition-transform duration-200"
-              onClick={() => {
-                // Handle reaction click
-                if (props.handleReaction) {
-                  props.handleReaction(reaction.type);
-                }
-                setShowReactions(false);
-              }}
+              onClick={() => handleReactionClick(reaction.type)}
             >
               <reaction.Component />
             </button>
