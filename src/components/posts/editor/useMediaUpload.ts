@@ -16,7 +16,9 @@ export default function useMediaUpload() {
   const [uploadProgress, setUploadProgress] = useState<number>();
 
   const { startUpload, isUploading } = useUploadThing("attachment", {
-    onBeforeUploadBegin(files) {
+  onBeforeUploadBegin(files) {
+    // Use requestAnimationFrame to break up heavy operations
+    requestAnimationFrame(() => {
       const renamedFiles = files.map((file) => {
         const extension = file.name.split(".").pop();
         return new File(
@@ -24,7 +26,7 @@ export default function useMediaUpload() {
           `attachment_${crypto.randomUUID()}.${extension}`,
           {
             type: file.type,
-          },
+          }
         );
       });
 
