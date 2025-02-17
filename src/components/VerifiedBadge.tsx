@@ -20,7 +20,7 @@ const sizeMap = {
 
 export default function VerifiedBadge({
   className,
-  size = 'md',
+  size = 'sm',
   showTooltip = true,
   tooltipContent = "Verified Account"
 }: VerifiedBadgeProps) {
