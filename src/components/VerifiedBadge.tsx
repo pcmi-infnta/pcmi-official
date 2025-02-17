@@ -12,7 +12,7 @@ interface VerifiedBadgeProps {
 }
 
 const sizeMap = {
-  sm: 14,
+  sm: 10,
   md: 18,
   lg: 20,
   xl: 24
@@ -50,7 +50,7 @@ export default function VerifiedBadge({
           alt="Verified Badge"
           width={badgeSize}
           height={badgeSize}
-          className="translate-y-[-1px]" // Adjusted to move slightly up
+          className="translate-y-[-1px]" 
         />
       </div>
       
