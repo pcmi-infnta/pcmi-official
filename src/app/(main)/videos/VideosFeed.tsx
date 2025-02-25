@@ -6,7 +6,7 @@ import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import Post from "@/components/posts/Post";
 import PostsLoadingSkeleton from "@/components/posts/PostsLoadingSkeleton";
 import kyInstance from "@/lib/ky";
-import { PostsPage } from "@/types/post";
+import { PostsPage } from "@/lib/types";
 
 export default function VideosFeed() {
   const {
