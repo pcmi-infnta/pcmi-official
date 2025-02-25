@@ -18,12 +18,12 @@ export default function VideosFeed() {
   } = useInfiniteQuery({
     queryKey: ["post-feed", "videos"],
     queryFn: async ({ pageParam }) => {
-      const url = pageParam
+      const url = pageParam 
         ? `/api/posts/videos?cursor=${pageParam}`
         : "/api/posts/videos";
       return kyInstance.get(url).json<PostsPage>();
     },
-    initialPageParam: null,
+    initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
