@@ -65,10 +65,18 @@ export default function useMediaUpload() {
     },
   });
 
+  function removeAttachment(fileName: string) {
+    setAttachments((prev) => prev.filter((a) => a.file.name !== fileName));
+  }
+
+  function reset() {
+    setAttachments([]);
+    setUploadProgress(undefined);
+  }
+
   function handleStartUpload(files: File[]) {
     if (isUploading) {
       toast({
-        variant: "destructive",
         description: "Please wait for the current upload to finish.",
       });
       return;
@@ -77,21 +85,12 @@ export default function useMediaUpload() {
     if (attachments.length + files.length > 5) {
       toast({
         variant: "destructive",
-        description: "You can only upload up to 5 attachments per post.",
+        description: "You can only upload up to 5 files.",
       });
       return;
     }
 
     startUpload(files);
-  }
-
-  function removeAttachment(fileName: string) {
-    setAttachments((prev) => prev.filter((a) => a.file.name !== fileName));
-  }
-
-  function reset() {
-    setAttachments([]);
-    setUploadProgress(undefined);
   }
 
   return {
