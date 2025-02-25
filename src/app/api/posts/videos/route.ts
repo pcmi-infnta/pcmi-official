@@ -16,8 +16,8 @@ export async function GET(request: NextRequest) {
 
   const posts = await prisma.post.findMany({
     where: {
-      // Only fetch posts that have videos
-      media: {
+      // Change 'media' to 'attachments'
+      attachments: {
         some: {
           type: "VIDEO",
         },
