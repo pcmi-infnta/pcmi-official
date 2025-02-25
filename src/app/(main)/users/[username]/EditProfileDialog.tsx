@@ -105,7 +105,7 @@ export default function EditProfileDialog({
                       <Input {...field} />
                       {user.isVerified && (
                         <VerifiedBadge 
-                          size="md"
+                          size="sm"
                           showTooltip={true}
                           className="flex-shrink-0"
                         />
