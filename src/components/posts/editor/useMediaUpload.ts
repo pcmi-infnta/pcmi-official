@@ -9,7 +9,7 @@ interface ServerData {
 
 export interface Attachment {
   file: File;
-  mediaId?: string;
+  mediaId?: string | null;
   isUploading: boolean;
 }
 
