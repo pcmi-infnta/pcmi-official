@@ -48,7 +48,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
         asChild
       >
         <Link href="/videos">
-          <TvMinimalPlay className="h-5 w-5" />
+          <TvMinimalPlay className="h-7 w-7" />
           <span className="hidden lg:inline">Videos</span>
         </Link>
       </Button>
@@ -61,7 +61,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
   asChild 
 >
   <Link href="/people">
-    <Users className="h-5 w-5" />
+    <Users className="h-6 w-6" />
     <span className="hidden lg:inline">People</span>
   </Link>
 </Button>
