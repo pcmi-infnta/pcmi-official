@@ -23,33 +23,20 @@ export default function MobileMenuBar({
   const isMainFeed = pathname === "/" || pathname === "/home";
 
   const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
-    
-    // Only apply auto-hide logic on the main feed
-    if (isMainFeed) {
-      if (currentScrollY < lastScrollY) {
-        setIsVisible(true);
-      } else if (currentScrollY > 50) {
-        setIsVisible(false);
-      }
-    } else {
-      // Always visible on other pages
-      setIsVisible(true);
-    }
-    
-    setLastScrollY(currentScrollY);
-    
-    if (scrollTimeout.current) {
-      clearTimeout(scrollTimeout.current);
-    }
-    
-    scrollTimeout.current = setTimeout(() => {
-      setIsVisible(true);
-    }, 1000);
-  }, [lastScrollY, isMainFeed]);
+  const currentScrollY = window.scrollY;
+  
+  if (currentScrollY < lastScrollY) {
+    setIsVisible(true);
+  } else {
+    setIsVisible(false);
+  }
+  
+  setLastScrollY(currentScrollY);
+  
+}, [lastScrollY]);
 
   useEffect(() => {
-    // Only add scroll listener on main feed
+
     if (isMainFeed) {
       window.addEventListener("scroll", handleScroll);
       
