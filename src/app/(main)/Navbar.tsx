@@ -29,29 +29,33 @@ const handleTouchEnd = useCallback(() => {
 }, [lastScrollY]);
 
   const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
-    
-    if (isMainFeed) {
-      if (currentScrollY < lastScrollY) {
-        setIsVisible(true);
-      } else if (currentScrollY > 50) {
-        setIsVisible(false);
-      }
-    } else {
+  const currentScrollY = window.scrollY;
+  
+  if (isMainFeed) {
+    if (currentScrollY < lastScrollY) {
 
-      setIsVisible(true);
+      if (!isTouching) {
+        setIsVisible(true);
+      }
+    } else if (currentScrollY > 50) {
+      setIsVisible(false);
     }
-    
-    setLastScrollY(currentScrollY);
-    
-    if (scrollTimeout.current) {
-      clearTimeout(scrollTimeout.current);
-    }
-    
+  } else {
+    setIsVisible(true);
+  }
+  
+  setLastScrollY(currentScrollY);
+  
+  if (scrollTimeout.current) {
+    clearTimeout(scrollTimeout.current);
+  }
+  
+  if (!isTouching) {
     scrollTimeout.current = setTimeout(() => {
       setIsVisible(true);
     }, 1000);
-  }, [lastScrollY, isMainFeed]);
+  }
+}, [lastScrollY, isMainFeed, isTouching]);
 
   useEffect(() => {
   if (isMainFeed) {

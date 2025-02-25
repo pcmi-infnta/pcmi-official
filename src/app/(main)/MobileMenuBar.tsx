@@ -40,14 +40,17 @@ const handleTouchEnd = useCallback(() => {
   const currentScrollY = window.scrollY;
   
   if (currentScrollY < lastScrollY) {
-    setIsVisible(true);
+
+    if (!isTouching) {
+      setIsVisible(true);
+    }
   } else {
     setIsVisible(false);
   }
   
   setLastScrollY(currentScrollY);
   
-}, [lastScrollY]);
+}, [lastScrollY, isTouching]);  
 
   useEffect(() => {
   if (isMainFeed) {
