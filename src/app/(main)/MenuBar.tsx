@@ -2,7 +2,7 @@ import { validateRequest } from "@/auth";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import streamServerClient from "@/lib/stream";
-import { Bookmark, Home, Users, Video } from "lucide-react";
+import { Bookmark, Home, Users, TvMinimalPlay } from "lucide-react";
 import Link from "next/link";
 import MessagesButton from "./MessagesButton";
 import NotificationsButton from "./NotificationsButton";
@@ -48,7 +48,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
         asChild
       >
         <Link href="/videos">
-          <Video className="h-5 w-5" />
+          <TvMinimalPlay className="h-5 w-5" />
           <span className="hidden lg:inline">Videos</span>
         </Link>
       </Button>
@@ -58,7 +58,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
   variant="ghost"
   className="flex items-center justify-start gap-3"
   title="People"
-  asChild
+  asChild 
 >
   <Link href="/people">
     <Users className="h-5 w-5" />
