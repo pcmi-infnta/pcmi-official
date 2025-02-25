@@ -2,6 +2,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useState } from "react";
 
+// Define the server data type
+interface ServerData {
+  mediaId: string;
+}
+
 export interface Attachment {
   file: File;
   mediaId?: string;
@@ -45,7 +50,7 @@ export default function useMediaUpload() {
 
           return {
             ...a,
-            mediaId: uploadResult.serverData?.mediaId,
+            mediaId: uploadResult.serverData ? (uploadResult.serverData as ServerData).mediaId : null,
             isUploading: false,
           };
         }),
