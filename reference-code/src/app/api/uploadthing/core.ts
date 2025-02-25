@@ -37,7 +37,7 @@ export const fileRouter = {
         prisma.user.update({
           where: { id: metadata.user.id },
           data: {
-            avatarUrl: newAvatarUrl,
+            avatarUrl: file.url,
           },
         }),
         streamServerClient.partialUpdateUser({
