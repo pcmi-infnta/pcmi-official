@@ -9,11 +9,24 @@ import Link from "next/link";
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isTouching, setIsTouching] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   
   const pathname = usePathname();
   
   const isMainFeed = pathname === "/" || pathname === "/home";
+  
+  const handleTouchStart = useCallback(() => {
+  setIsTouching(true);
+}, []);
+
+const handleTouchEnd = useCallback(() => {
+  setIsTouching(false);
+  
+  if (window.scrollY < lastScrollY) {
+    setIsVisible(true);
+  }
+}, [lastScrollY]);
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -41,20 +54,23 @@ export default function Navbar() {
   }, [lastScrollY, isMainFeed]);
 
   useEffect(() => {
-
-    if (isMainFeed) {
-      window.addEventListener("scroll", handleScroll);
-      
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-        if (scrollTimeout.current) {
-          clearTimeout(scrollTimeout.current);
-        }
-      };
-    } else {
-      setIsVisible(true);
-    }
-  }, [handleScroll, isMainFeed]);
+  if (isMainFeed) {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchend", handleTouchEnd);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+    };
+  } else {
+    setIsVisible(true);
+  }
+}, [handleScroll, handleTouchStart, handleTouchEnd, isMainFeed]);
 
   return (
   <header

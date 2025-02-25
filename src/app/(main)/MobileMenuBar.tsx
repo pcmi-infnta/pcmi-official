@@ -14,6 +14,7 @@ export default function MobileMenuBar({
 }: MobileMenuBarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isTouching, setIsTouching] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   
   // Get the current pathname
@@ -21,6 +22,19 @@ export default function MobileMenuBar({
   
   // Check if we're on the main feed
   const isMainFeed = pathname === "/" || pathname === "/home";
+  
+  const handleTouchStart = useCallback(() => {
+  setIsTouching(true);
+}, []);
+
+const handleTouchEnd = useCallback(() => {
+  setIsTouching(false);
+  
+  // Check if we should show the bars after touch release
+  if (window.scrollY < lastScrollY) {
+    setIsVisible(true);
+  }
+}, [lastScrollY]);
 
   const handleScroll = useCallback(() => {
   const currentScrollY = window.scrollY;
@@ -36,21 +50,23 @@ export default function MobileMenuBar({
 }, [lastScrollY]);
 
   useEffect(() => {
-
-    if (isMainFeed) {
-      window.addEventListener("scroll", handleScroll);
-      
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-        if (scrollTimeout.current) {
-          clearTimeout(scrollTimeout.current);
-        }
-      };
-    } else {
-      // Make sure menu bar is visible on other pages
-      setIsVisible(true);
-    }
-  }, [handleScroll, isMainFeed]);
+  if (isMainFeed) {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchend", handleTouchEnd);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+    };
+  } else {
+    setIsVisible(true);
+  }
+}, [handleScroll, handleTouchStart, handleTouchEnd, isMainFeed]);
 
   return (
   <div
