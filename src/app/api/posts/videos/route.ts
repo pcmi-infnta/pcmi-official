@@ -15,52 +15,53 @@ export async function GET(request: NextRequest) {
   const limit = 10;
 
   const posts = await prisma.post.findMany({
-    where: {
-      attachments: {
-        some: {
-          type: "VIDEO",
-        },
+  where: {
+    attachments: {
+      some: {
+        type: "VIDEO",
       },
     },
-    include: {
-      author: true,
-      attachments: true,
-      _count: {
-        select: {
-          comments: true,
-          likes: true,
-        },
-      },
-      likes: {
-        where: {
-          userId: user.id,
-        },
-        select: {
-          id: true,
-        },
-      },
-      bookmarks: {
-        where: {
-          userId: user.id,
-        },
-        select: {
-          id: true,
-        },
+  },
+  include: {
+    author: true,
+    attachments: true,
+    _count: {
+      select: {
+        comments: true,
+        likes: true,
       },
     },
-    orderBy: {
-      createdAt: "desc",
+    likes: {
+      where: {
+        userId: user.id,
+      },
+      select: {
+        userId: true,  // Select userId instead of id
+        postId: true,  // You can also select postId if needed
+      },
     },
-    take: limit + 1,
-    ...(cursor
-      ? {
-          cursor: {
-            id: cursor,
-          },
-          skip: 1,
-        }
-      : {}),
-  });
+    bookmarks: {
+      where: {
+        userId: user.id,
+      },
+      select: {
+        id: true,  // This is fine since Bookmark has an id field
+      },
+    },
+  },
+  orderBy: {
+    createdAt: "desc",
+  },
+  take: limit + 1,
+  ...(cursor
+    ? {
+        cursor: {
+          id: cursor,
+        },
+        skip: 1,
+      }
+    : {}),
+});
 
   let nextCursor: string | null = null;
   if (posts.length > limit) {
