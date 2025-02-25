@@ -6,33 +6,54 @@ import UserButton from "@/components/UserButton";
 import Link from "next/link";
 
 export default function Navbar() {
-  const [isVisible, setIsVisible] = useState(true); // State to track visibility
-  const [lastScrollY, setLastScrollY] = useState(0); 
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
+  
+  const isMainFeed = pathname === "/" || pathname === "/home";
 
   const handleScroll = useCallback(() => {
-  const currentScrollY = window.scrollY;
-  
-  if (currentScrollY < lastScrollY) {
-    setIsVisible(true);
-  } else {
-    setIsVisible(false);
-  }
-  
-  setLastScrollY(currentScrollY);
-  
-}, [lastScrollY]);
+    const currentScrollY = window.scrollY;
+    
+    if (isMainFeed) {
+      if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      } else if (currentScrollY > 50) {
+        setIsVisible(false);
+      }
+    } else {
+
+      setIsVisible(true);
+    }
+    
+    setLastScrollY(currentScrollY);
+    
+    if (scrollTimeout.current) {
+      clearTimeout(scrollTimeout.current);
+    }
+    
+    scrollTimeout.current = setTimeout(() => {
+      setIsVisible(true);
+    }, 1000);
+  }, [lastScrollY, isMainFeed]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout); // Clean up timeout on unmount
-      }
-    };
-  }, [handleScroll, scrollTimeout]); // Include 'handleScroll' in the dependency array
+
+    if (isMainFeed) {
+      window.addEventListener("scroll", handleScroll);
+      
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        if (scrollTimeout.current) {
+          clearTimeout(scrollTimeout.current);
+        }
+      };
+    } else {
+      setIsVisible(true);
+    }
+  }, [handleScroll, isMainFeed]);
 
   return (
   <header
