@@ -48,7 +48,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
         asChild
       >
         <Link href="/videos">
-          <TvMinimalPlay className="h-7 w-7" />
+          <TvMinimalPlay className="h-6 w-6" />
           <span className="hidden lg:inline">Videos</span>
         </Link>
       </Button>
