@@ -45,7 +45,7 @@ export default function useMediaUpload() {
 
           return {
             ...a,
-            mediaId: uploadResult.serverData.mediaId,
+            mediaId: uploadResult.serverData?.mediaId,
             isUploading: false,
           };
         }),
