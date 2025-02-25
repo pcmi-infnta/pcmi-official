@@ -53,12 +53,12 @@ export default function MobileMenuBar({
   }, [handleScroll, isMainFeed]);
 
   return (
-    <div
-      className={`fixed bottom-0 left-0 z-50 w-full bg-background/80 backdrop-blur-sm ${
-        isVisible ? "translate-y-0" : "translate-y-full"
-      } transition-transform duration-300 ${className}`}
-    >
-      {children}
-    </div>
-  );
+  <div
+    className={`fixed bottom-0 left-0 z-50 w-full bg-background/80 backdrop-blur-sm ${
+      isVisible ? "translate-y-0" : "translate-y-full"
+    } ${className}`}
+  >
+    {children}
+  </div>
+);
 }
