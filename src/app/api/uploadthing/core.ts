@@ -55,7 +55,7 @@ export const fileRouter = {
     image: { maxFileSize: "4MB", maxFileCount: 5 },
     video: { maxFileSize: "64MB", maxFileCount: 5 },
   },
-  { awaitServerData: false }
+  { awaitServerData: true }
 )
     .middleware(async () => {
       const { user } = await validateRequest();
@@ -74,8 +74,8 @@ export const fileRouter = {
           type: file.type.startsWith("image") ? "IMAGE" : "VIDEO",
         },
       });
-
-      return { mediaId: media.id };
+      console.log("Created media record:", media);
+  return { mediaId: media.id };
     }),
 } satisfies FileRouter;
 
