@@ -32,7 +32,7 @@ export default function MobileMenuBar({ children, className }: MobileMenuBarProp
         if (currentScrollY > lastScrollY) {
           setIsVisible(false);
         }
-      }, 50)
+      }, 5)
     );
   }, [lastScrollY, scrollTimeout]);
 

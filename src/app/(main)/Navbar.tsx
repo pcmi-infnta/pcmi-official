@@ -35,7 +35,7 @@ export default function Navbar() {
       if (currentScrollY > lastScrollY) {
         setIsVisible(false);
       }
-    }, 50)); // Adjust the duration for hiding the navbar if needed
+    }, 5)); // Adjust the duration for hiding the navbar if needed
   }, [lastScrollY, scrollTimeout]);
 
   useEffect(() => {
