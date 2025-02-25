@@ -7,29 +7,22 @@ import Link from "next/link";
 
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true); // State to track visibility
-  const [lastScrollY, setLastScrollY] = useState(0); // State to track last scroll position
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null); // For managing timeout
+  const [lastScrollY, setLastScrollY] = useState(0); 
+  
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handleScroll = useCallback(() => {
   const currentScrollY = window.scrollY;
-
-  // Clear any existing timeout
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout);
-  }
-
-  // Set visibility based on scroll direction - instantly
-  if (currentScrollY > lastScrollY) {
-    setIsVisible(false); // Hide immediately when scrolling down
+  
+  if (currentScrollY < lastScrollY) {
+    setIsVisible(true);
   } else {
-    setIsVisible(true); // Show immediately when scrolling up
+    setIsVisible(false);
   }
-
-  // Update last scroll position
+  
   setLastScrollY(currentScrollY);
   
-  // No timeout needed for hiding
-}, [lastScrollY, scrollTimeout]);
+}, [lastScrollY]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -42,7 +35,10 @@ export default function Navbar() {
   }, [handleScroll, scrollTimeout]); // Include 'handleScroll' in the dependency array
 
   return (
-    <header className={`sticky top-0 z-10 bg-card shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+  <header
+    className={`sticky top-0 z-50 w-full bg-background/80 backdrop-blur-sm ${
+      isVisible ? "translate-y-0" : "-translate-y-full"
+    }`} >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-3">
         <Link href="/" className="text-2xl font-bold text-primary">
           𝗽𝗰𝗺𝗶  

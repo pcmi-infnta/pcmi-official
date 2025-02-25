@@ -14,24 +14,16 @@ export default function MobileMenuBar({ children, className }: MobileMenuBarProp
 
   const handleScroll = useCallback(() => {
   const currentScrollY = window.scrollY;
-
-  // Clear any existing timeout
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout);
-  }
-
-  // Set visibility based on scroll direction - instantly
-  if (currentScrollY > lastScrollY) {
-    setIsVisible(false); // Hide immediately when scrolling down
+  
+  if (currentScrollY < lastScrollY) {
+    setIsVisible(true);
   } else {
-    setIsVisible(true); // Show immediately when scrolling up
+    setIsVisible(false);
   }
-
-  // Update last scroll position
+  
   setLastScrollY(currentScrollY);
   
-  // No timeout needed for hiding
-}, [lastScrollY, scrollTimeout]);
+}, [lastScrollY]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -44,12 +36,11 @@ export default function MobileMenuBar({ children, className }: MobileMenuBarProp
   }, [handleScroll, scrollTimeout]);
 
   return (
-    <div
-      className={`${className} transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "translate-y-full"
-      }`}
-    >
-      {children}
-    </div>
-  );
+  <div
+    className={`fixed bottom-0 left-0 z-50 w-full bg-background/80 backdrop-blur-sm ${
+      isVisible ? "translate-y-0" : "translate-y-full"
+    } ${className}`} >
+    {children}
+  </div>
+);
 }
