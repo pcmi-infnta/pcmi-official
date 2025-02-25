@@ -75,7 +75,7 @@ export const fileRouter = {
         },
       });
       console.log("Created media record:", media);
-  return { mediaId: media.id };
+     return { mediaId: media.id };
     }),
 } satisfies FileRouter;
 

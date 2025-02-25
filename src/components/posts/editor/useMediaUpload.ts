@@ -42,20 +42,23 @@ export default function useMediaUpload() {
     },
     onUploadProgress: setUploadProgress,
     onClientUploadComplete(res) {
-      setAttachments((prev) =>
-        prev.map((a) => {
-          const uploadResult = res.find((r) => r.name === a.file.name);
+  setAttachments((prev) =>
+    prev.map((a) => {
+      const uploadResult = res.find((r) => r.name === a.file.name);
 
-          if (!uploadResult) return a;
+      if (!uploadResult) return a;
 
-          return {
-            ...a,
-            mediaId: uploadResult.serverData ? (uploadResult.serverData as ServerData).mediaId : null,
-            isUploading: false,
-          };
-        }),
-      );
-    },
+      console.log("Upload result:", uploadResult);
+      console.log("Server data:", uploadResult.serverData);
+
+      return {
+        ...a,
+        mediaId: uploadResult.serverData ? (uploadResult.serverData as ServerData).mediaId : null,
+        isUploading: false,
+      };
+    }),
+  );
+},
     onUploadError(e) {
       setAttachments((prev) => prev.filter((a) => !a.isUploading));
       toast({
