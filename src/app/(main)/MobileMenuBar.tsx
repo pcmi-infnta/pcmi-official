@@ -13,28 +13,25 @@ export default function MobileMenuBar({ children, className }: MobileMenuBarProp
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
+  const currentScrollY = window.scrollY;
 
-    if (scrollTimeout) {
-      clearTimeout(scrollTimeout);
-    }
+  // Clear any existing timeout
+  if (scrollTimeout) {
+    clearTimeout(scrollTimeout);
+  }
 
-    if (currentScrollY > lastScrollY) {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
+  // Set visibility based on scroll direction - instantly
+  if (currentScrollY > lastScrollY) {
+    setIsVisible(false); // Hide immediately when scrolling down
+  } else {
+    setIsVisible(true); // Show immediately when scrolling up
+  }
 
-    setLastScrollY(currentScrollY);
-
-    setScrollTimeout(
-      setTimeout(() => {
-        if (currentScrollY > lastScrollY) {
-          setIsVisible(false);
-        }
-      }, 5)
-    );
-  }, [lastScrollY, scrollTimeout]);
+  // Update last scroll position
+  setLastScrollY(currentScrollY);
+  
+  // No timeout needed for hiding
+}, [lastScrollY, scrollTimeout]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

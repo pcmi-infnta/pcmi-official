@@ -11,32 +11,25 @@ export default function Navbar() {
   const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null); // For managing timeout
 
   const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
+  const currentScrollY = window.scrollY;
 
-    // Clear the previous timeout to prevent instant hide/show
-    if (scrollTimeout) {
-      clearTimeout(scrollTimeout);
-    }
+  // Clear any existing timeout
+  if (scrollTimeout) {
+    clearTimeout(scrollTimeout);
+  }
 
-    // If scrolling down, hide the navbar immediately
-    if (currentScrollY > lastScrollY) {
-      setIsVisible(false);
-    } 
-    // If scrolling up, show the navbar after a short delay
-    else {
-      setIsVisible(true);
-    }
+  // Set visibility based on scroll direction - instantly
+  if (currentScrollY > lastScrollY) {
+    setIsVisible(false); // Hide immediately when scrolling down
+  } else {
+    setIsVisible(true); // Show immediately when scrolling up
+  }
 
-    // Update last scroll position
-    setLastScrollY(currentScrollY);
-
-    // Set a timeout to hide the navbar if the user stops scrolling
-    setScrollTimeout(setTimeout(() => {
-      if (currentScrollY > lastScrollY) {
-        setIsVisible(false);
-      }
-    }, 5)); // Adjust the duration for hiding the navbar if needed
-  }, [lastScrollY, scrollTimeout]);
+  // Update last scroll position
+  setLastScrollY(currentScrollY);
+  
+  // No timeout needed for hiding
+}, [lastScrollY, scrollTimeout]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
