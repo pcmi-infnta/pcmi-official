@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     },
   },
   include: {
-    author: true,
+    user: true,
     attachments: true,
     _count: {
       select: {
