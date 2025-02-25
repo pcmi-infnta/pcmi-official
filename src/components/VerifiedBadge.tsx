@@ -51,7 +51,7 @@ export default function VerifiedBadge({
           alt="Verified Badge"
           width={badgeSize}
           height={badgeSize}
-          className="translate-y-[-1px] scale-25" 
+          className="translate-y-[-1px] scale-40" 
         />
       </div>
       
