@@ -16,7 +16,6 @@ export async function GET(request: NextRequest) {
 
   const posts = await prisma.post.findMany({
     where: {
-      // Change 'media' to 'attachments'
       attachments: {
         some: {
           type: "VIDEO",
@@ -25,12 +24,11 @@ export async function GET(request: NextRequest) {
     },
     include: {
       author: true,
-      media: true,
+      attachments: true,
       _count: {
         select: {
           comments: true,
           likes: true,
-          reposts: true,
         },
       },
       likes: {
