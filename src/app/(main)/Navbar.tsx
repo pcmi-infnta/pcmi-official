@@ -1,6 +1,7 @@
-"use client"; // Add this line at the top
+"use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SearchField from "@/components/SearchField";
 import UserButton from "@/components/UserButton";
 import Link from "next/link";
