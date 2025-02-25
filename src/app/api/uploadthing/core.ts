@@ -37,7 +37,7 @@ export const fileRouter = {
         prisma.user.update({
           where: { id: metadata.user.id },
           data: {
-            avatarUrl: newAvatarUrl,
+            avatarUrl: file.url,
           },
         }),
         streamServerClient.partialUpdateUser({
@@ -64,10 +64,7 @@ export const fileRouter = {
     .onUploadComplete(async ({ file }) => {
       const media = await prisma.media.create({
         data: {
-          url: file.url.replace(
-            "/f/",
-            `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-          ),
+          url: file.url,
           type: file.type.startsWith("image") ? "IMAGE" : "VIDEO",
         },
       });
