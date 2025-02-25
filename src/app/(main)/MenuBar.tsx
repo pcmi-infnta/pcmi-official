@@ -2,7 +2,7 @@ import { validateRequest } from "@/auth";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import streamServerClient from "@/lib/stream";
-import { Bookmark, Home, Users } from "lucide-react";
+import { Bookmark, Home, Users, Video } from "lucide-react";
 import Link from "next/link";
 import MessagesButton from "./MessagesButton";
 import NotificationsButton from "./NotificationsButton";
@@ -39,7 +39,19 @@ export default async function MenuBar({ className }: MenuBarProps) {
           <span className="hidden lg:inline">Home</span>
         </Link>
       </Button>
-
+      
+      
+    <Button
+        variant="ghost"
+        className="flex items-center justify-start gap-3"
+        title="Videos"
+        asChild
+      >
+        <Link href="/videos">
+          <Video className="h-5 w-5" />
+          <span className="hidden lg:inline">Videos</span>
+        </Link>
+      </Button>
 
 
       <Button
