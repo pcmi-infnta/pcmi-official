@@ -2,12 +2,6 @@ import withPWA from 'next-pwa';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    staleTimes: { 
-      dynamic: 30,
-    },
-  },
-  serverExternalPackages: ["@node-rs/argon2"],
   images: {
     remotePatterns: [
       {
@@ -28,13 +22,24 @@ const nextConfig = {
 };
 
 const config = withPWA({
-  ...nextConfig,
-  pwa: {
-    dest: 'public',
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === 'development'
-  }
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+  runtimeCaching: [
+    {
+      urlPattern: /^https?.*/,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'offlineCache',
+        expiration: {
+          maxEntries: 200,
+          maxAgeSeconds: 24 * 60 * 60 // 24 hours
+        },
+      },
+    }
+  ],
+  buildExcludes: [/middleware-manifest\.json$/],
 });
 
 export default config;
