@@ -1,21 +1,31 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import streamServerClient from "@/lib/stream";
-import { createUploadthing, FileRouter } from "uploadthing/next";
+import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError, UTApi } from "uploadthing/server";
 
 const f = createUploadthing();
 
+// Define the metadata type
+type UploadThingMetadata = {
+  url: string;
+  user: {
+    id: string;
+    avatarUrl?: string;
+  };
+  // Add other metadata properties if needed
+};
+
 export const fileRouter = {
   avatar: f({
-    image: { maxFileSize: "4MB" },
+    image: { maxFileSize: "512KB" },
   })
     .middleware(async () => {
       const { user } = await validateRequest();
       if (!user) throw new UploadThingError("Unauthorized");
       return { user };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ metadata, file }: { metadata: UploadThingMetadata; file: any }) => {
       const oldAvatarUrl = metadata.user.avatarUrl;
 
       if (oldAvatarUrl) {
@@ -31,7 +41,6 @@ export const fileRouter = {
         `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
       );
 
-      // Log the new URL and APP_ID for debugging
       console.log('New avatar URL:', newAvatarUrl);
       console.log('APP_ID:', process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID);
 
@@ -53,27 +62,22 @@ export const fileRouter = {
       return { avatarUrl: newAvatarUrl };
     }),
 
-  attachment: f(
-    {
-      image: { maxFileSize: "4MB", maxFileCount: 5 },
-      video: { maxFileSize: "64MB", maxFileCount: 5 },
-    },
-    { awaitServerData: true }
-  )
+  attachment: f({
+    image: { maxFileSize: "4MB", maxFileCount: 5 },
+    video: { maxFileSize: "64MB", maxFileCount: 5 },
+  })
     .middleware(async () => {
       const { user } = await validateRequest();
       if (!user) throw new UploadThingError("Unauthorized");
       return {};
     })
-    .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Original URL:', metadata.url); // Log the original URL
-
+    .onUploadComplete(async ({ metadata, file }: { metadata: UploadThingMetadata; file: any }) => {
+      console.log('Original URL:', metadata.url);
       const url = metadata.url.replace(
         "/f/",
         `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
       );
 
-      // Log the transformed URL and APP_ID for debugging
       console.log('Transformed URL:', url);
       console.log('APP_ID:', process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID);
 
