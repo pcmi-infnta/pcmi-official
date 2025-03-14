@@ -6,15 +6,13 @@ import { UploadThingError, UTApi } from "uploadthing/server";
 
 const f = createUploadthing();
 
-// Define the metadata type
-type UploadThingMetadata = {
-  url: string;
+// Define the metadata type to match what the middleware returns
+interface UploadThingMetadata {
   user: {
-    id: string;
     avatarUrl?: string;
+    // Add other user properties as needed
   };
-  // Add other metadata properties if needed
-};
+}
 
 export const fileRouter = {
   avatar: f({
@@ -25,7 +23,7 @@ export const fileRouter = {
       if (!user) throw new UploadThingError("Unauthorized");
       return { user };
     })
-    .onUploadComplete(async ({ metadata, file }: { metadata: UploadThingMetadata; file: any }) => {
+    .onUploadComplete(async ({ metadata, file }) => {
       const oldAvatarUrl = metadata.user.avatarUrl;
 
       if (oldAvatarUrl) {
@@ -36,28 +34,22 @@ export const fileRouter = {
         await new UTApi().deleteFiles(key);
       }
 
-      const newAvatarUrl = file.url.replace(
-        "/f/",
-        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-      );
-
+      const newAvatarUrl = file.url; // Use file.url directly
       console.log('New avatar URL:', newAvatarUrl);
-      console.log('APP_ID:', process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID);
 
-      await Promise.all([
-        prisma.user.update({
-          where: { id: metadata.user.id },
-          data: {
-            avatarUrl: newAvatarUrl,
-          },
-        }),
-        streamServerClient.partialUpdateUser({
-          id: metadata.user.id,
-          set: {
-            image: newAvatarUrl,
-          },
-        }),
-      ]);
+      await prisma.user.update({
+        where: { id: metadata.user.id },
+        data: {
+          avatarUrl: newAvatarUrl,
+        },
+      });
+
+      await streamServerClient.partialUpdateUser({
+        id: metadata.user.id,
+        set: {
+          image: newAvatarUrl,
+        },
+      });
 
       return { avatarUrl: newAvatarUrl };
     }),
@@ -71,15 +63,9 @@ export const fileRouter = {
       if (!user) throw new UploadThingError("Unauthorized");
       return {};
     })
-    .onUploadComplete(async ({ metadata, file }: { metadata: UploadThingMetadata; file: any }) => {
-      console.log('Original URL:', metadata.url);
-      const url = metadata.url.replace(
-        "/f/",
-        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-      );
-
+    .onUploadComplete(async ({ file }) => {
+      const url = file.url; // Use file.url directly
       console.log('Transformed URL:', url);
-      console.log('APP_ID:', process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID);
 
       const media = await prisma.media.create({
         data: {
