@@ -3,12 +3,18 @@ import withPWA from 'next-pwa';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ["utfs.io", "47ql6qwg.utfs.io"],  // Added both domains
     remotePatterns: [
       {
         protocol: "https",
         hostname: "utfs.io",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.utfs.io",  // Allow all subdomains
+        pathname: "/**",
+      }
     ],
   },
   rewrites: () => {
