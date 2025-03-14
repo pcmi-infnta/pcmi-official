@@ -31,8 +31,9 @@ export const fileRouter = {
         `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
       );
 
-      // Log the new URL for debugging
+      // Log the new URL and APP_ID for debugging
       console.log('New avatar URL:', newAvatarUrl);
+      console.log('APP_ID:', process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID);
 
       await Promise.all([
         prisma.user.update({
@@ -65,14 +66,16 @@ export const fileRouter = {
       return {};
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      const url = file.url.replace(
+      console.log('Original URL:', metadata.url); // Log the original URL
+
+      const url = metadata.url.replace(
         "/f/",
         `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
       );
 
-      // Log metadata and file information for debugging
-      console.log('Upload metadata:', metadata);
-      console.log('File information:', file);
+      // Log the transformed URL and APP_ID for debugging
+      console.log('Transformed URL:', url);
+      console.log('APP_ID:', process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID);
 
       const media = await prisma.media.create({
         data: {
