@@ -8,13 +8,11 @@ const f = createUploadthing();
 
 export const fileRouter = {
   avatar: f({
-    image: { maxFileSize: "512KB" },
+    image: { maxFileSize: "4MB" },
   })
     .middleware(async () => {
       const { user } = await validateRequest();
-
       if (!user) throw new UploadThingError("Unauthorized");
-
       return { user };
     })
     .onUploadComplete(async ({ metadata, file }) => {
@@ -33,6 +31,9 @@ export const fileRouter = {
         `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
       );
 
+      // Log the new URL for debugging
+      console.log('New avatar URL:', newAvatarUrl);
+
       await Promise.all([
         prisma.user.update({
           where: { id: metadata.user.id },
@@ -50,32 +51,38 @@ export const fileRouter = {
 
       return { avatarUrl: newAvatarUrl };
     }),
+
   attachment: f(
-  {
-    image: { maxFileSize: "4MB", maxFileCount: 5 },
-    video: { maxFileSize: "64MB", maxFileCount: 5 },
-  },
-  { awaitServerData: true }
-)
+    {
+      image: { maxFileSize: "4MB", maxFileCount: 5 },
+      video: { maxFileSize: "64MB", maxFileCount: 5 },
+    },
+    { awaitServerData: true }
+  )
     .middleware(async () => {
       const { user } = await validateRequest();
-
       if (!user) throw new UploadThingError("Unauthorized");
-
       return {};
     })
-    .onUploadComplete(async ({ file }) => {
+    .onUploadComplete(async ({ metadata, file }) => {
+      const url = file.url.replace(
+        "/f/",
+        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+      );
+
+      // Log metadata and file information for debugging
+      console.log('Upload metadata:', metadata);
+      console.log('File information:', file);
+
       const media = await prisma.media.create({
         data: {
-          url: file.url.replace(
-            "/f/",
-            `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-          ),
+          url,
           type: file.type.startsWith("image") ? "IMAGE" : "VIDEO",
         },
       });
       console.log("Created media record:", media);
-     return { mediaId: media.id };
+
+      return { mediaId: media.id };
     }),
 } satisfies FileRouter;
 
